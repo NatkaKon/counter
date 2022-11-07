@@ -2,69 +2,80 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './App.module.css';
 import {Buttons} from './Buttons';
 
-
 function App() {
 
+    const [startValue, setStartValue] = useState<number>(0)
+    const [maxValue, setMaxValue] = useState<number>(5)
     const [number, setNumber] = useState<any>(0)
-    const [start, setStart] = useState<number>(0)
-    const [max, setMax] = useState<number>(5)
-    const [isDisabled, setDisabled] = useState(false);
-    // const [error, setError]=useState<string|null>(null)
+    const [btnDisabled, setBtnDisabled] = useState(true);
 
-    // useEffect(()=> {
-    //     let valueAsString = localStorage.getItem('startValue')
-    //     if (valueAsString) {
-    //         let newValue = JSON.parse(valueAsString)
-    //         // setValue(newValue)
-    //         // setMax(newValue)
-    //     }
-    // }, [])
-    //
-    // useEffect(() => {
-    //     localStorage.setItem('startValue', JSON.stringify(value))
-    //
-    // }, [value])
+    const getFromLocalStorage = () => {
+        let valueAsString = localStorage.getItem('startValue')
+        let valueMaxAsString = localStorage.getItem('maxValue')
 
+        if (valueAsString) {
+            let newValue = JSON.parse(valueAsString)
+            setStartValue(newValue)
+        }
+        if (valueMaxAsString) {
+            let newValue = JSON.parse(valueMaxAsString)
+            setMaxValue(newValue)
+        }
+    }
 
-    const divStyle = number === max ? s.error : s.num
+    useEffect(() => {
+        getFromLocalStorage()
+    }, [])
 
-    const InputMaxStyle = max <= start ? s.inputError : s.input
-    const InputStartStyle = start < 0 ? s.inputError : s.input
+    const setToLocalStorage = () => {
+        localStorage.setItem('startValue', JSON.stringify(startValue))
+        localStorage.setItem('maxValue', JSON.stringify(maxValue))
+    }
+
+    const divStyle = number === maxValue ? s.error : s.num
+
+    const InputMaxStyle = maxValue <= startValue ? s.inputError : s.input
+    const InputStartStyle = startValue < 0 ? s.inputError : s.input
 
     const onChangeStartHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (max <= start || start <0) {
+        const startValue = +e.currentTarget.value
+        if (maxValue <= startValue || startValue < 0) {
             setNumber('Incorrect value!')
+            setBtnDisabled(true);
         } else {
-            setStart(+e.currentTarget.value)
-            setDisabled(false);
-            console.log('handler', start)
-            setNumber("Enter values and press 'set'")
+            setBtnDisabled(false);
+            console.log('handler', startValue)
+            setNumber('Enter values and press \'set')
         }
+        setStartValue(startValue)
     }
 
     const onChangeMaxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (max <= start || max<=0) {
+        const maxValue = +e.currentTarget.value
+        if (maxValue <= startValue || maxValue <= 0) {
             setNumber('Incorrect value!')
+            setBtnDisabled(true);
         } else {
-            setMax(+e.currentTarget.value)
-            setDisabled(false);
-            setNumber("Enter values and press 'set'")
+            setBtnDisabled(false);
+            setNumber('Enter values and press \'set')
         }
+        setMaxValue(maxValue)
     }
 
-    const onClickSet = () => {
-        setNumber(start)
-        setDisabled(true);
+    const onClickSet = () => {                         //  localstorage
+        setNumber(startValue)
+        setBtnDisabled(true);
+        setToLocalStorage()
     }
     const onClickReset = () => {
-        if (max) setNumber(start)
-        setDisabled(false);
+        if (maxValue) setNumber(startValue)
+        setBtnDisabled(false);
     }
 
     const onClickInc = () => {
         const newNum = number + 1
         setNumber(newNum)
-        if (number === max) {
+        if (number === maxValue) {
             onClickReset()
         }
     }
@@ -78,7 +89,7 @@ function App() {
                         <span>
                             <input className={InputMaxStyle}
                                    type="number"
-                                   value={max}
+                                   value={maxValue}
                                    onChange={onChangeMaxHandler}/>
                         </span>
                     </div>
@@ -86,13 +97,13 @@ function App() {
                         <span>
                             <input className={InputStartStyle}
                                    type="number"
-                                   value={start}
+                                   value={startValue}
                                    onChange={onChangeStartHandler}/>
                         </span>
                     </div>
                 </div>
                 <div className={s.button}>
-                    <Buttons disabled={isDisabled}
+                    <Buttons disabled={btnDisabled}
                              callBack={onClickSet}
                              name={'set'}/>
                 </div>
@@ -101,10 +112,10 @@ function App() {
             <div className={s.divs}>
                 <div className={divStyle}>{number}</div>
                 <div className={s.button}>
-                    <Buttons disabled={number === max}
+                    <Buttons disabled={number === maxValue}
                              callBack={onClickInc}
                              name={'inc'}/>
-                    <Buttons disabled={number === start}
+                    <Buttons disabled={number === startValue}
                              callBack={onClickReset}
                              name={'reset'}/>
                 </div>

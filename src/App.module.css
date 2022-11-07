@@ -1,0 +1,89 @@
+.App {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #060927;
+}
+
+.divs {
+    padding: 10px;
+    border: solid 4px cyan;
+    border-radius: 10px;
+    width: 400px;
+    height: 300px;
+}
+
+.num {
+    font-size: 40px;
+    height: 150px;
+    border: solid 4px cyan;
+    border-radius: 10px;
+    padding: 10px;
+    color: cyan;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.set {
+    font-size: 40px;
+    border: solid 4px cyan;
+    border-radius: 10px;
+    padding: 10px;
+    color: cyan;
+    text-align: center;
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: 150px;
+}
+
+.input {
+    border: solid 2px cyan;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 10px;
+    width: 50px;
+}
+.inputError{
+    border: solid 2px red;
+    background-color: #e9767f;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 10px;
+    width: 50px;
+}
+/*.App > div {*/
+/*    width: 200px;*/
+/*    background-color: #060927;*/
+/*}*/
+
+.button {
+    margin: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 100px;
+}
+
+.error {
+    display: flex;
+    justify-content: space-around;
+    font-size: 80px;
+    font-weight: bold;
+    color: #eb1e30;
+    border: cyan solid 4px;
+    border-radius: 10px;
+    height: 150px;
+    padding: 10px;
+
+    text-align: center;
+
+    flex-direction: column;
+
+}

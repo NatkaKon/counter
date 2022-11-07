@@ -62,7 +62,7 @@ function App() {
         setMaxValue(maxValue)
     }
 
-    const onClickSet = () => {                         //  localstorage
+    const onClickSet = () => {      //  localstorage
         setNumber(startValue)
         setBtnDisabled(true);
         setToLocalStorage()
